@@ -11,6 +11,6 @@ QtObject {
     readonly property color text: "#e6e6e6"
     readonly property color muted: "#8a8a93"
     readonly property color error: "#ff6b6b"
-    readonly property string mono: "monospace"
+    readonly property string mono: Qt.platform.os === "windows" ? "Consolas" : "monospace"
     readonly property int gutter: 16
 }

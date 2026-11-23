@@ -12,10 +12,19 @@
 #include "figure.h"
 
 Backend::Backend(FilePicker *picker, const QString &sessionPath, QObject *parent)
-    : QObject(parent), m_picker(picker ? picker : new PortalFilePicker(this)),
+    : QObject(parent),
+#ifdef AMAT_PORTAL
+      m_picker(picker ? picker : new PortalFilePicker(this)),
+#else
+      m_picker(picker ? picker : new NativeFilePicker(this)),
+#endif
       m_sessionPath(!sessionPath.isEmpty() ? sessionPath
                     : !qEnvironmentVariableIsEmpty("AMAT_SESSION") ? qEnvironmentVariable("AMAT_SESSION")
+#ifdef Q_OS_WIN
+                    : QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/session.json") {
+#else
                     : QDir::homePath() + "/.local/state/amat/session.json") {
+#endif
     m_calculator = new CalculatorTool(this);
     m_functions = new FunctionTool(this);
     m_vectors = new VectorTool(this);
