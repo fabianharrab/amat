@@ -1,0 +1,26 @@
+{
+  "%n rows": {
+    "one": "%n row",
+    "other": "%n rows"
+  },
+  "%n columns": {
+    "one": "%n column",
+    "other": "%n columns"
+  },
+  "%n lines skipped": {
+    "one": "%n line skipped",
+    "other": "%n lines skipped"
+  },
+  "Data: %n points": {
+    "one": "Data: %n point",
+    "other": "Data: %n points"
+  },
+  "%n peaks (find_peaks)": {
+    "one": "%n peak (find_peaks)",
+    "other": "%n peaks (find_peaks)"
+  },
+  "%n peaks with A ≥ %1": {
+    "one": "%n peak with A ≥ %1",
+    "other": "%n peaks with A ≥ %1"
+  }
+}

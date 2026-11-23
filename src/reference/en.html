@@ -1,0 +1,71 @@
+<h1>Theory &amp; cheat sheet</h1>
+<p>Short and to the point, matching the review exercises. Every calculation can be done on the other pages; the rules are here.</p>
+
+<h2 style="color:ACCENT">1 · Arrays / NumPy</h2>
+<ul>
+<li><code>np.arange(start, stop, step)</code>: <b>stop is excluded</b>. <code>np.arange(0, 10, 2)</code> → <code>[0 2 4 6 8]</code> (integers).</li>
+<li><code>np.linspace(start, stop, num)</code>: <b>stop is included</b>, a count instead of a step, always floats. <code>np.linspace(0, 10, 6)</code> → <code>[0. 2. 4. 6. 8. 10.]</code>.</li>
+<li>Constant array <code>[5. 5. … 5.]</code> (8×): <code>np.zeros(8) + 5</code>, <code>np.ones(8) * 5</code>, <code>np.linspace(5, 5, 8)</code>, <code>np.full(8, 5.)</code>. <code>np.arange(5, 5, 0)</code> is wrong (step 0).</li>
+<li><b>Dimension</b> (<code>.ndim</code>) = number of opening brackets at the start: <code>[[[</code> → 3. <code>.shape</code> counts the elements per level, e.g. <code>(2, 3, 4)</code>.</li>
+<li>Arithmetic is <b>element-wise</b>: <code>np.array([1, 2, 3]) * 2</code> → <code>[2 4 6]</code>. A <b>list</b> <code>[1, 2, 3] * 2</code> repeats → <code>[1, 2, 3, 1, 2, 3]</code>; <code>list / 1000</code> raises an error → use an array or <code>[ti / 1000 for ti in t_ms]</code>.</li>
+<li>Indexing <code>a[row, column]</code>, starting at 0. Middle column: <code>a[:, 1]</code> or <code>a.T[1]</code>. Row: <code>a[1]</code> = <code>a[1, :]</code>. Last element: <code>a[-1]</code>.</li>
+<li><code>np.round(np.exp([1., 2., 3.]), 2)</code> → <code>[ 2.72  7.39 20.09]</code>.</li>
+<li><code>np.loadtxt(file, delimiter=';', skiprows=1)</code>: <b>skiprows</b> = number of header lines (lines starting with <code>#</code> are skipped anyway), <b>delimiter</b> = separator (default: spaces/tabs). Columns: <code>data[:, 0]</code>. The app shows both when you open the file (Python tab).</li>
+</ul>
+
+<h2 style="color:ACCENT">2 · Matplotlib</h2>
+<ul>
+<li>Format string <code>'[marker][line][color]'</code>: <code>'r--'</code> = red dashed, <code>'ko'</code> = black dots, <code>'b.-'</code>. Equivalent: <code>color='red', linestyle='--'</code>. <code>'red--'</code> is <b>invalid</b>.</li>
+<li><code>fig, axs = plt.subplots(nrows=2, ncols=3)</code> → <code>axs[row, column]</code> from 0: bottom middle = <code>axs[1, 1].plot(…)</code>. With a single column: <code>axs[0]</code>, <code>axs[1]</code>.</li>
+<li><code>label='…'</code> names a curve; <code>plt.legend()</code> then shows the legend without repeating the text.</li>
+<li>Log axis: <code>ax.set_yscale('log')</code>. Grid: <code>ax.grid()</code>. Equal scaling: <code>plt.axis('equal')</code>.</li>
+<li>Save <b>before</b> <code>plt.show()</code>: <code>plt.savefig('figure.svg')</code> (format from the extension). In the app: Ctrl+E, file name ending in <code>.svg</code>.</li>
+</ul>
+
+<h2 style="color:ACCENT">3 · Vectors</h2>
+<ul>
+<li>Polar → Cartesian: <code>p = [r·cos φ, r·sin φ]</code>. Magnitude 9 at 30° → <code>[7.794, 4.5]</code> (app: vector <code>9@30</code>).</li>
+<li>Magnitude <code>np.linalg.norm(p)</code>, phase <b>always</b> <code>np.arctan2(y, x)</code> (y first!). <code>[-4, 3]</code> → magnitude 5, phase 143.13° (arctan alone wrongly gives −36.87°).</li>
+<li>Dot product <code>a·b = axbx + ayby = |a||b|cos φ</code>: <b>&gt; 0</b> acute angle, <b>= 0</b> perpendicular, <b>&lt; 0</b> obtuse. Example <code>[1, 1.1]·[−0.1, −1] = −1.2 &lt; 0</code>.</li>
+<li>Cross product only in 3D, perpendicular to both, magnitude = parallelogram area.</li>
+<li><b>Rotation matrix</b> <code>R(φ) = [[cos φ, −sin φ], [sin φ, cos φ]]</code>: square, columns of length 1 and perpendicular (<code>RᵀR = I</code>), <code>det R = 1</code>, and cos² + sin² = 1 (e.g. 0.5403² + 0.8415² = 1). The app checks this in the matrix field.</li>
+<li><b>Rotate</b> a vector (active): <code>p' = R @ p</code>. Coordinates in a <b>rotated system</b> (passive): <code>p' = R.T @ p</code>. Rotated and shifted: <code>p' = R.T @ (p − t)</code>. Rotate then shift: <code>R @ p + t</code>.</li>
+<li>Robot arm with angle φ and length L: gripper <code>r = R(φ) @ [L, 0] = L·[cos φ, sin φ]</code>.</li>
+</ul>
+
+<h2 style="color:ACCENT">4 · Statistics &amp; measurement uncertainty</h2>
+<ul>
+<li>The result is the <b>mean</b>. Standard deviation <code>s = x.std(ddof=1)</code> (divide by N−1). Example <code>[3.47, 3.51, 3.48]</code> → x̄ = 3.4867, s = 0.0208.</li>
+<li>Single values (normal distribution): ≈ 68 % within x̄ ± s, ≈ <b>95 % within x̄ ± 2s</b>, ≈ 99.7 % within x̄ ± 3s.</li>
+<li><b>Confidence interval</b> (95 %) of the mean: <code>x̄ ± 2·s/√N</code>. N = 100, s = 2.8 g → 248.7 ± 0.56 g. Meaning: the interval contains the (unknown) true value with 95 % probability; if the series were repeated many times, about 95 % of the intervals computed this way would contain the true value. More measurements make it narrower (∝ 1/√N); the scatter of single values (s) does not shrink.</li>
+<li>Uncertainty: <code>u₁ = s/√N</code>; add further contributions in quadrature <code>u = √(u₁² + u₂² + …)</code>; tolerance ±a → <code>u = a/√3</code>; expanded <code>U = k·u</code> (k = 2 ≙ 95 %).</li>
+<li>Reporting: round U to <b>2 significant digits</b>, the result to the same place, and state k: <code>I = 0.857 ± 0.014 A (k = 2)</code>.</li>
+<li>Error propagation: <code>u_y = √Σ(∂y/∂xᵢ · uᵢ)²</code> (app: Error propagation page, derivatives shown).</li>
+</ul>
+
+<h2 style="color:ACCENT">5 · Signals / SciPy</h2>
+<ul>
+<li><code>y(t) = A·cos(2πft + φ) + y₀</code>: A amplitude, f frequency, period <code>T = 1/f</code>, offset y₀. The phase shifts by <code>Δt = −φ/(2πf)</code>: φ = −60° → curve moves 60/360·T to the <b>right</b>. Example A = 2, f = 20 Hz, φ = −60°: T = 50 ms, maximum at t = 8.33 ms, y(0) = 2·cos(−60°) = 1.</li>
+<li><b>Reading a function from a plot</b>: offset = (max + min)/2, amplitude = (max − min)/2, T = distance between two maxima, f = 1/T, phase from the first maximum t_max: <code>φ = −2π·f·t_max</code> (cosine form). Check by plotting it on “Functions”.</li>
+<li>Filters: a <b>low-pass</b> keeps low frequencies (smoothing, removes noise), a <b>high-pass</b> keeps high ones (removes trend/offset). To keep only the highest component, put the cutoff <b>between</b> the second-highest and the highest frequency. Median filter against outliers; Savitzky–Golay smooths while keeping the shape.</li>
+<li>Linear interpolation between (t₁, y₁) and (t₂, y₂): <code>y = y₁ + (y₂ − y₁)·(t − t₁)/(t₂ − t₁)</code>; the derivative there is the slope <code>(y₂ − y₁)/(t₂ − t₁)</code> with unit [y]/[t] (e.g. mm/s). App: “Fit”, model linear interpolation, “Evaluate at”.</li>
+<li>Integration: position = area under the velocity, <code>x(t) = x₀ + ∫v dt</code>. Constant v → straight line, linearly rising v → parabola, v = 0 → x stays constant. Differentiation = slope; it amplifies noise → smooth first.</li>
+<li>Sampling: <code>fs = 1/Δt</code>, <code>t = np.arange(N)/fs</code>, duration <code>N/fs</code>.</li>
+</ul>
+
+<h2 style="color:ACCENT">6 · Frequency analysis / FFT</h2>
+<ul>
+<li><b>Sampling theorem</b>: the sampling rate must be more than twice the highest frequency in the signal, <code>fs &gt; 2·f_max</code>. Otherwise <b>aliasing</b>: higher frequencies show up folded as a false low frequency (25 Hz sampled at 30 Hz → 5 Hz). Consequences: the spectrum only reaches <code>fs/2</code> (Nyquist); choose fs high enough or low-pass filter before sampling.</li>
+<li><code>f_max = fs/2</code>, resolution <code>Δf = 1/T_meas = fs/N</code>. fs = 0.6 kHz for 1 min → f_max = 300 Hz, Δf = 0.017 Hz.</li>
+<li>Amplitude spectrum: the peak at 0 Hz is the DC component (mean); each sine/cosine gives a peak at its frequency with height = its amplitude (one-sided, <code>A[1:] *= 2</code>). Square wave: odd harmonics of height 4/π·A/n. Noise raises the floor.</li>
+<li>Sketching: label the frequency axis from 0 to fs/2 (Hz), the amplitude axis in the signal's unit; draw peaks at the frequencies with the amplitudes. Check on “Spectrum” → Formula, enter fs and duration.</li>
+<li>A non-integer number of periods → leakage (smeared peaks) → window function (e.g. tukey, hann), remove the offset first: <code>y_w = w*(y − y.mean()) + y.mean()</code>.</li>
+<li>Peaks above a threshold: <code>peaks, _ = signal.find_peaks(A, height=5)</code>, <code>np.round(f[peaks], 3)</code>. Index 0 (DC) is never reported as a peak.</li>
+</ul>
+
+<h2 style="color:ACCENT">7 · Part B: which page?</h2>
+<ul>
+<li><b>Pressure pulsation (FFT)</b>: Spectrum page → open the file, pick the time column (fs comes from t), factor 1000 (bar → mbar), log amplitude axis, “only peaks with amplitude ≥ 5”. The Python tab gives the code including the subplots.</li>
+<li><b>Rolling ball</b>: Signal page → fs = <code>1/2e-3</code>, a Savitzky–Golay or low-pass step (smooth), then derivative d/dt → velocity, d/dt again → acceleration a. Or the Fit page: polynomial of degree 2 on x(t), then <code>a = 2·a₂</code>. Incline: sliding <code>a = g·sin α</code> → <code>α = arcsin(a/g)</code>; rolling solid sphere <code>a = 5/7·g·sin α</code> → <code>α = arcsin(7a/(5g))</code>. Explain which model you assume.</li>
+<li><b>Robot arm</b>: Arrays page → open the file, columns <code>t, phi, delta_r</code>, new columns <code>L = 0.6 + delta_r</code>, <code>x = L*cos(phi)</code>, <code>y = L*sin(phi)</code>, x axis x, y axis y, vector to row 0 = start position; export as <code>.svg</code>.</li>
+</ul>

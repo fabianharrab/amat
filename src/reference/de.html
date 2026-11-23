@@ -1,0 +1,71 @@
+<h1>Theorie &amp; Spickzettel</h1>
+<p>Kurz und auf den Punkt, passend zu den Repetitionsaufgaben. Rechnen kannst du alles auf den anderen Seiten; hier stehen die Regeln.</p>
+
+<h2 style="color:ACCENT">1 · Arrays / NumPy</h2>
+<ul>
+<li><code>np.arange(start, stop, step)</code>: <b>stop gehört nicht dazu</b>. <code>np.arange(0, 10, 2)</code> → <code>[0 2 4 6 8]</code> (Ganzzahlen).</li>
+<li><code>np.linspace(start, stop, num)</code>: <b>stop gehört dazu</b>, Anzahl Werte statt Schritt, immer Float. <code>np.linspace(0, 10, 6)</code> → <code>[0. 2. 4. 6. 8. 10.]</code>.</li>
+<li>Konstanter Array <code>[5. 5. … 5.]</code> (8×): <code>np.zeros(8) + 5</code>, <code>np.ones(8) * 5</code>, <code>np.linspace(5, 5, 8)</code>, <code>np.full(8, 5.)</code>. <code>np.arange(5, 5, 0)</code> ist falsch (Schritt 0).</li>
+<li><b>Dimension</b> (<code>.ndim</code>) = Anzahl öffnender Klammern am Anfang: <code>[[[</code> → 3. <code>.shape</code> zählt die Elemente pro Ebene, z. B. <code>(2, 3, 4)</code>.</li>
+<li>Rechnen ist <b>elementweise</b>: <code>np.array([1, 2, 3]) * 2</code> → <code>[2 4 6]</code>. Eine <b>Liste</b> <code>[1, 2, 3] * 2</code> wiederholt sich → <code>[1, 2, 3, 1, 2, 3]</code>; <code>liste / 1000</code> gibt einen Fehler → Array verwenden oder <code>[ti / 1000 for ti in t_ms]</code>.</li>
+<li>Indizierung <code>a[zeile, spalte]</code>, beginnt bei 0. Mittlere Spalte: <code>a[:, 1]</code> oder <code>a.T[1]</code>. Zeile: <code>a[1]</code> = <code>a[1, :]</code>. Letztes Element: <code>a[-1]</code>.</li>
+<li><code>np.round(np.exp([1., 2., 3.]), 2)</code> → <code>[ 2.72  7.39 20.09]</code>.</li>
+<li><code>np.loadtxt(datei, delimiter=';', skiprows=1)</code>: <b>skiprows</b> = Anzahl Kopfzeilen (Zeilen mit <code>#</code> werden automatisch übersprungen), <b>delimiter</b> = Trennzeichen (Standard: Leerzeichen/Tab). Spalten: <code>data[:, 0]</code>. Die App zeigt dir beides an, wenn du die Datei öffnest (Python-Tab).</li>
+</ul>
+
+<h2 style="color:ACCENT">2 · Matplotlib</h2>
+<ul>
+<li>Formatstring <code>'[Marker][Linie][Farbe]'</code>: <code>'r--'</code> = rot gestrichelt, <code>'ko'</code> = schwarze Punkte, <code>'b.-'</code>. Gleichwertig: <code>color='red', linestyle='--'</code>. <code>'red--'</code> ist <b>ungültig</b>.</li>
+<li><code>fig, axs = plt.subplots(nrows=2, ncols=3)</code> → <code>axs[zeile, spalte]</code> ab 0: unten Mitte = <code>axs[1, 1].plot(…)</code>. Bei nur einer Spalte: <code>axs[0]</code>, <code>axs[1]</code>.</li>
+<li><code>label='…'</code> benennt eine Kurve; <code>plt.legend()</code> zeigt dann die Legende, ohne den Text nochmals anzugeben.</li>
+<li>Log-Achse: <code>ax.set_yscale('log')</code>. Gitter: <code>ax.grid()</code>. Gleiche Skalierung: <code>plt.axis('equal')</code>.</li>
+<li>Speichern <b>vor</b> <code>plt.show()</code>: <code>plt.savefig('bild.svg')</code> (Format aus der Endung). In der App: Ctrl+E, Dateiname auf <code>.svg</code>.</li>
+</ul>
+
+<h2 style="color:ACCENT">3 · Vektorrechnung</h2>
+<ul>
+<li>Polar → kartesisch: <code>p = [r·cos φ, r·sin φ]</code>. Betrag 9, 30° → <code>[7.794, 4.5]</code> (App: Vektor <code>9@30</code>).</li>
+<li>Betrag <code>np.linalg.norm(p)</code>, Phase <b>immer</b> <code>np.arctan2(y, x)</code> (y zuerst!). <code>[-4, 3]</code> → Betrag 5, Phase 143.13° (arctan allein gäbe falsch −36.87°).</li>
+<li>Skalarprodukt <code>a·b = axbx + ayby = |a||b|cos φ</code>: <b>&gt; 0</b> spitzer Winkel, <b>= 0</b> senkrecht, <b>&lt; 0</b> stumpfer Winkel. Beispiel <code>[1, 1.1]·[−0.1, −1] = −1.2 &lt; 0</code>.</li>
+<li>Kreuzprodukt nur 3D, steht senkrecht auf beiden, Betrag = Parallelogrammfläche.</li>
+<li><b>Rotationsmatrix</b> <code>R(φ) = [[cos φ, −sin φ], [sin φ, cos φ]]</code>: quadratisch, Spalten haben Länge 1 und stehen senkrecht (<code>RᵀR = I</code>), <code>det R = 1</code>, und es gilt cos² + sin² = 1 (z. B. 0.5403² + 0.8415² = 1). Die App prüft das im Matrix-Feld.</li>
+<li>Vektor <b>drehen</b> (aktiv): <code>p' = R @ p</code>. Koordinaten im <b>gedrehten System</b> (passiv): <code>p' = R.T @ p</code>. Gedreht und verschoben: <code>p' = R.T @ (p − t)</code>. Drehen dann verschieben: <code>R @ p + t</code>.</li>
+<li>Roboterarm mit Drehwinkel φ und Länge L: Greifer <code>r = R(φ) @ [L, 0] = L·[cos φ, sin φ]</code>.</li>
+</ul>
+
+<h2 style="color:ACCENT">4 · Statistik &amp; Messunsicherheit</h2>
+<ul>
+<li>Messergebnis = <b>Mittelwert</b>. Standardabweichung <code>s = x.std(ddof=1)</code> (durch N−1). Beispiel <code>[3.47, 3.51, 3.48]</code> → x̄ = 3.4867, s = 0.0208.</li>
+<li>Einzelwerte (Normalverteilung): ≈ 68 % in x̄ ± s, ≈ <b>95 % in x̄ ± 2s</b>, ≈ 99.7 % in x̄ ± 3s.</li>
+<li><b>Konfidenzintervall</b> (95 %) des Mittelwertes: <code>x̄ ± 2·s/√N</code>. N = 100, s = 2.8 g → 248.7 ± 0.56 g. Bedeutung: Das Intervall enthält den (unbekannten) wahren Wert mit 95 % Wahrscheinlichkeit; würde man die Messreihe oft wiederholen, enthielten etwa 95 % der so berechneten Intervalle den wahren Wert. Es wird mit mehr Messungen schmaler (∝ 1/√N), die Streuung der Einzelwerte (s) aber nicht.</li>
+<li>Unsicherheit: <code>u₁ = s/√N</code>; weitere Beiträge quadratisch addieren <code>u = √(u₁² + u₂² + …)</code>; Toleranz ±a → <code>u = a/√3</code>; erweitert <code>U = k·u</code> (k = 2 ≙ 95 %).</li>
+<li>Angabe: U auf <b>2 signifikante Stellen</b> runden, Ergebnis auf dieselbe Stelle, k nennen: <code>I = 0.857 ± 0.014 A (k = 2)</code>.</li>
+<li>Fehlerfortpflanzung: <code>u_y = √Σ(∂y/∂xᵢ · uᵢ)²</code> (App: Seite Fehlerfortpflanzung, Ableitungen werden angezeigt).</li>
+</ul>
+
+<h2 style="color:ACCENT">5 · Signale / SciPy</h2>
+<ul>
+<li><code>y(t) = A·cos(2πft + φ) + y₀</code>: A Amplitude, f Frequenz, Periode <code>T = 1/f</code>, Offset y₀. Phase φ verschiebt um <code>Δt = −φ/(2πf)</code>: φ = −60° → Kurve um 60/360·T nach <b>rechts</b>. Beispiel A = 2, f = 20 Hz, φ = −60°: T = 50 ms, Maximum bei t = 8.33 ms, y(0) = 2·cos(−60°) = 1.</li>
+<li><b>Funktion aus einem Plot ablesen</b>: Offset = (max + min)/2, Amplitude = (max − min)/2, T = Abstand zweier Maxima, f = 1/T, Phase aus der Lage des ersten Maximums t_max: <code>φ = −2π·f·t_max</code> (Kosinusform). Prüfen: in der App auf „Funktionen“ zeichnen.</li>
+<li>Filterwahl: <b>Tiefpass</b> lässt tiefe Frequenzen durch (glätten, Rauschen weg), <b>Hochpass</b> hohe (Trend/Offset weg). Um nur die höchste Komponente zu behalten: Grenzfrequenz <b>zwischen</b> der zweithöchsten und der höchsten Frequenz wählen. Medianfilter gegen Ausreisser, Savitzky-Golay glättet formtreu.</li>
+<li>Lineare Interpolation zwischen (t₁, y₁) und (t₂, y₂): <code>y = y₁ + (y₂ − y₁)·(t − t₁)/(t₂ − t₁)</code>; die Ableitung dort ist die Steigung <code>(y₂ − y₁)/(t₂ − t₁)</code> mit Einheit [y]/[t] (z. B. mm/s). App: „Ausgleich“, Modell lineare Interpolation, „Auswerten bei“.</li>
+<li>Integrieren: Position = Fläche unter der Geschwindigkeit, <code>x(t) = x₀ + ∫v dt</code>. Konstantes v → Gerade, linear steigendes v → Parabel, v = 0 → x bleibt konstant. Ableiten: Steigung; Ableiten verstärkt Rauschen → vorher glätten.</li>
+<li>Abtastung: <code>fs = 1/Δt</code>, <code>t = np.arange(N)/fs</code>, Messdauer <code>N/fs</code>.</li>
+</ul>
+
+<h2 style="color:ACCENT">6 · Frequenzanalyse / FFT</h2>
+<ul>
+<li><b>Abtasttheorem</b>: Die Abtastfrequenz muss mehr als doppelt so gross sein wie die höchste Frequenz im Signal, <code>fs &gt; 2·f_max</code>. Sonst entsteht <b>Aliasing</b>: höhere Frequenzen erscheinen gespiegelt als falsche tiefe Frequenz (25 Hz mit fs = 30 Hz → 5 Hz). Folgen: Das Spektrum reicht nur bis <code>fs/2</code> (Nyquist); fs genügend hoch wählen bzw. vor dem Abtasten tiefpassfiltern.</li>
+<li><code>f_max = fs/2</code>, Auflösung <code>Δf = 1/T_mess = fs/N</code>. fs = 0.6 kHz, 1 min → f_max = 300 Hz, Δf = 0.017 Hz.</li>
+<li>Amplitudenspektrum: Peak bei 0 Hz = Gleichanteil (Mittelwert); jede Sinus-/Kosinuskomponente gibt einen Peak an ihrer Frequenz mit Höhe = ihre Amplitude (einseitig, <code>A[1:] *= 2</code>). Rechteck: ungerade Harmonische, Höhe 4/π·A/n. Rauschen hebt den „Boden“ an.</li>
+<li>Skizze: Frequenzachse von 0 bis fs/2 beschriften (Hz), Amplitudenachse in der Signaleinheit; Peaks bei den Frequenzen mit den Amplituden einzeichnen. Prüfen: „Spektrum“ → Formel, fs und Dauer eintragen.</li>
+<li>Nicht ganzzahlige Periodenzahl → Leakage (verschmierte Peaks) → Fensterfunktion (z. B. tukey, hann), Offset vorher entfernen: <code>y_w = w*(y − y.mean()) + y.mean()</code>.</li>
+<li>Peaks über einer Schwelle: <code>peaks, _ = signal.find_peaks(A, height=5)</code>, <code>np.round(f[peaks], 3)</code>. Index 0 (DC) wird nie als Peak gefunden.</li>
+</ul>
+
+<h2 style="color:ACCENT">7 · Teil B: welche Seite?</h2>
+<ul>
+<li><b>Druckpulsation (FFT)</b>: Seite Spektrum → Datei öffnen, Zeitspalte wählen (fs wird aus t berechnet), Faktor 1000 (bar → mbar), log. Amplitudenachse, „nur Peaks mit Amplitude ≥ 5“. Das Python-Tab liefert den Code inkl. Subplots.</li>
+<li><b>Rollende Kugel</b>: Seite Signal → fs = <code>1/2e-3</code>, Schritt Savitzky-Golay oder Tiefpass (glätten), dann Ableitung d/dt → Geschwindigkeit, nochmals d/dt → Beschleunigung a. Oder Seite Ausgleich: Polynom Grad 2 an x(t), dann <code>a = 2·a₂</code>. Neigung: rutschend <code>a = g·sin α</code> → <code>α = arcsin(a/g)</code>; rollende Vollkugel <code>a = 5/7·g·sin α</code> → <code>α = arcsin(7a/(5g))</code>. Begründen, welches Modell du annimmst.</li>
+<li><b>Roboterarm</b>: Seite Arrays → Datei öffnen, Spalten <code>t, phi, delta_r</code>, neue Spalten <code>L = 0.6 + delta_r</code>, <code>x = L*cos(phi)</code>, <code>y = L*sin(phi)</code>, x-Achse x, y-Achse y, Vektor zu Zeile 0 = Startstellung; Export als <code>.svg</code>.</li>
+</ul>

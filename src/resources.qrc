@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="Main.qml">Main.qml</file>
+        <file alias="Style.qml">Style.qml</file>
+        <file alias="PageFrame.qml">PageFrame.qml</file>
+        <file alias="PlotPanel.qml">PlotPanel.qml</file>
+        <file alias="ResultsPanel.qml">ResultsPanel.qml</file>
+        <file alias="DataPanel.qml">DataPanel.qml</file>
+        <file alias="Field.qml">Field.qml</file>
+        <file alias="ChoiceField.qml">ChoiceField.qml</file>
+        <file alias="CheckField.qml">CheckField.qml</file>
+        <file alias="SectionLabel.qml">SectionLabel.qml</file>
+        <file alias="StepEditor.qml">StepEditor.qml</file>
+        <file alias="HelpOverlay.qml">HelpOverlay.qml</file>
+        <file alias="CalculatorPage.qml">CalculatorPage.qml</file>
+        <file alias="FunctionsPage.qml">FunctionsPage.qml</file>
+        <file alias="VectorsPage.qml">VectorsPage.qml</file>
+        <file alias="StatisticsPage.qml">StatisticsPage.qml</file>
+        <file alias="PropagationPage.qml">PropagationPage.qml</file>
+        <file alias="SignalPage.qml">SignalPage.qml</file>
+        <file alias="SpectrumPage.qml">SpectrumPage.qml</file>
+        <file alias="FitPage.qml">FitPage.qml</file>
+        <file alias="TablePage.qml">TablePage.qml</file>
+        <file alias="TheoryPage.qml">TheoryPage.qml</file>
+        <file alias="reference/de.html">reference/de.html</file>
+        <file alias="reference/en.html">reference/en.html</file>
+        <file alias="i18n/en.json">i18n/en.json</file>
+        <file alias="i18n/de.json">i18n/de.json</file>
+    </qresource>
+</RCC>

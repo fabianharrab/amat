@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=Amat
+Name[de]=Amat
+GenericName=Applied Mathematics
+GenericName[de]=Angewandte Mathematik
+Comment=Statistics, uncertainty, vectors, filters, FFT, and fits with the equivalent Python
+Comment[de]=Statistik, Messunsicherheit, Vektoren, Filter, FFT und Ausgleich mit dem passenden Python-Code
+Keywords=math;mathematik;fft;statistics;statistik;numpy;scipy;plot;
+Exec=amat %f
+Icon=amat
+Terminal=false
+Categories=Education;Science;Math;
+MimeType=text/csv;text/plain;audio/x-wav;
+StartupWMClass=amat

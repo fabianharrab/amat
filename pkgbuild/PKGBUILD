@@ -1,0 +1,23 @@
+pkgname=amat
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='Calculations and plots for applied mathematics: statistics, uncertainty, filters, FFT, fits'
+arch=('x86_64' 'aarch64')
+license=('MIT')
+depends=('qt6-base' 'qt6-declarative' 'qt6-svg' 'qt6-wayland' 'xdg-desktop-portal')
+makedepends=('gcc' 'make')
+source=()
+sha256sums=()
+
+build() {
+  cd "$startdir/.."
+  ./bin/build
+}
+
+package() {
+  cd "$startdir/.."
+  install -Dm755 build/amat "$pkgdir/usr/bin/amat"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 "$startdir/amat.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/amat.svg"
+  install -Dm644 "$startdir/amat.desktop" "$pkgdir/usr/share/applications/amat.desktop"
+}
