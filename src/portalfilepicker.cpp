@@ -1,3 +1,4 @@
+#ifdef AMAT_PORTAL
 #include "filepicker.h"
 
 #include <QDBusArgument>
@@ -125,3 +126,4 @@ void PortalFilePicker::onResponse(uint response, const QVariantMap &results) {
     if (uris.isEmpty()) return;
     emit selected(tag, QUrl(uris.first()).toLocalFile());
 }
+#endif

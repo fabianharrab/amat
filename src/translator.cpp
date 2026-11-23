@@ -12,6 +12,7 @@
 Translator::Translator(const QString &languageFile, const QString &catalogDirectory, QObject *parent)
     : QTranslator(parent),
       m_languageFile(languageFile.isEmpty() ? QDir::homePath() + "/.config/omarchy/language" : languageFile),
+      m_followSystem(languageFile.isEmpty()),
       m_catalogDirectory(catalogDirectory) {
     m_debounce.setSingleShot(true);
     m_debounce.setInterval(80);
@@ -106,7 +107,11 @@ void Translator::reload() {
         m_watcher.addPath(m_languageFile);
 
     // Catalogs are compiled in, so only a different language needs a reload.
-    const QString language = readLanguage(m_languageFile);
+    // Outside Omarchy (Windows, other desktops) there is no language file;
+    // follow the system language instead, so German Windows gets German.
+    QString language = readLanguage(m_languageFile);
+    if (m_followSystem && !QFileInfo::exists(m_languageFile))
+        language = QLocale::system().name().section('_', 0, 0);
     if (language == m_language)
         return;
 

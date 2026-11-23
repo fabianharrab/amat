@@ -199,7 +199,10 @@ bool isCliCommand(int argc, char **argv) {
 
 int runCli(int argc, char **argv) {
     // Headless: no window, but QPainter and fonts still work for `plot`.
+#ifndef Q_OS_WIN
+    // Windows ships only its own platform plugin, which works without a window too.
     qputenv("QT_QPA_PLATFORM", "offscreen");
+#endif
     QGuiApplication app(argc, argv);
     app.setApplicationName("amat");
     QStringList args = app.arguments();

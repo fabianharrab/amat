@@ -2,6 +2,9 @@
 
 #include <QFileInfo>
 #include <QGuiApplication>
+#ifndef AMAT_PORTAL
+#include <QApplication>
+#endif
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -18,8 +21,14 @@ int main(int argc, char *argv[]) {
     if (isCliCommand(argc, argv))
         return runCli(argc, argv);
 
+#ifdef AMAT_PORTAL
     QGuiApplication app(argc, argv);
+#else
+    // QFileDialog, used outside Linux, needs the widgets application.
+    QApplication app(argc, argv);
+#endif
     app.setApplicationName("amat");
+    app.setOrganizationName("amat");
     app.setApplicationVersion("0.1.0");
 
     // Matches the window to amat.desktop, so the compositor (Wayland app_id)

@@ -1,4 +1,20 @@
-QT += core gui qml quick quickcontrols2 dbus svg
+QT += core gui qml quick quickcontrols2 svg
+
+# Linux uses xdg-desktop-portal over D-Bus for file dialogs; Windows and
+# macOS use their own dialogs through Qt Widgets.
+unix:!macx {
+    QT += dbus
+    DEFINES += AMAT_PORTAL
+} else {
+    QT += widgets
+}
+win32 {
+    DEFINES += _USE_MATH_DEFINES
+    msvc: QMAKE_CXXFLAGS += /utf-8
+    RC_ICONS = windows/amat.ico
+    QMAKE_TARGET_DESCRIPTION = Amat
+    VERSION = 0.1.0
+}
 
 CONFIG += c++17 release
 TARGET = amat
@@ -18,6 +34,7 @@ HEADERS += \
 
 SOURCES += \
     src/main.cpp \
+    src/nativefilepicker.cpp \
     src/backend.cpp \
     src/cli.cpp \
     src/datasource.cpp \

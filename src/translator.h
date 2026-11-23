@@ -37,6 +37,7 @@ private:
     void reload();
 
     QString m_languageFile;
+    bool m_followSystem = false; // no Omarchy setting given: use the OS language
     QString m_catalogDirectory;
     QString m_language;
     QHash<QString, QJsonValue> m_strings;

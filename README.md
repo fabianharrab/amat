@@ -56,6 +56,22 @@ amat skill install                                  # agent skill for these comm
 
 Each command takes `--json` and exits 1 with the error on stderr.
 
+## Install
+
+**Omarchy / Arch Linux:** `bin/install` builds the package and installs it,
+so Amat appears in the app launcher (Super + Space).
+
+**Windows:** download `Amat-windows.zip` from the
+[Releases page](https://github.com/fabianharrab/amat/releases), unzip it
+anywhere, and double-click `amat.exe`. Nothing else needs to be installed.
+Windows may warn that the program is unsigned: click "More info", then "Run
+anyway". The app uses the Windows display language (German or English) and
+saves its inputs in `%APPDATA%\amat`.
+
+To build the Windows version yourself, open a Visual Studio x64 developer
+prompt with Qt 6 (MSVC) on `PATH` and run `powershell -File windows\build.ps1`;
+the zip lands in `dist\`. Every push also builds it on GitHub Actions.
+
 ## Build
 
 ```sh
