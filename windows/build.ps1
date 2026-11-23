@@ -33,6 +33,13 @@ windeployqt --release --compiler-runtime --no-translations `
     --qmldir (Join-Path $root "src") (Join-Path $app "amat.exe")
 if ($LASTEXITCODE -ne 0) { throw "windeployqt failed" }
 
+# windeployqt adds Microsoft's runtime installer; ship the runtime DLLs
+# themselves instead, so amat.exe starts without installing anything.
+$redist = Get-ChildItem -Path (Join-Path $env:VCToolsRedistDir "x64") -Directory -Filter "Microsoft.VC*.CRT" | Select-Object -First 1
+if (-not $redist) { throw "MSVC runtime DLLs not found under $env:VCToolsRedistDir" }
+Copy-Item (Join-Path $redist.FullName "*.dll") $app
+Remove-Item -Force -ErrorAction SilentlyContinue (Join-Path $app "vc_redist.x64.exe")
+
 Copy-Item (Join-Path $root "LICENSE") (Join-Path $app "LICENSE.txt")
 Copy-Item (Join-Path $root "windows\README.txt") (Join-Path $app "README.txt")
 
